@@ -8,27 +8,17 @@ def caching_fibonacci() -> Callable[[int], list[int]]:
   def fibonacci(n: int) -> int:
     nonlocal fibonacci_cache
 
-    # Checks if the passed instance is 0 or 1 and respectively populates the cache and returns the required value
-    if n <= 0:
-      if len(fibonacci_cache) <= n:
+    # Adding the first two fibonacci elelemts as a starter for the generator
+    if len(fibonacci_cache) <= 1:
+      if len(fibonacci_cache) == 0:
         fibonacci_cache.append(0)
-      return fibonacci_cache[n]
-    elif n == 1:
-      if len(fibonacci_cache) <= 1:
-        if len(fibonacci_cache) == 0:
-          fibonacci_cache.append(0)
-        fibonacci_cache.append(1)
-      return fibonacci_cache[n]
+      fibonacci_cache.append(1)
 
     # Checks if the instance requested is in the cache otherwise populates cache and returns the required instance
     if n < len(fibonacci_cache):
       return fibonacci_cache[n]
     else:
       while len(fibonacci_cache) <= n:
-        if len(fibonacci_cache) <= 1:
-          if len(fibonacci_cache) == 0:
-            fibonacci_cache.append(0)
-          fibonacci_cache.append(1)
         fibonacci_cache.append(fibonacci_cache[len(fibonacci_cache) - 1] + fibonacci_cache[len(fibonacci_cache) - 2])
       return fibonacci_cache[n]
 
@@ -36,6 +26,9 @@ def caching_fibonacci() -> Callable[[int], list[int]]:
 
 fibonacci_gen = caching_fibonacci()
 
+print(fibonacci_gen(0))
+print(fibonacci_gen(1))
+print(fibonacci_gen(2))
 print(fibonacci_gen(10))
 print(fibonacci_gen(15))
 
